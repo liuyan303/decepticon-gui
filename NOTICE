@@ -1,0 +1,25 @@
+Decepticon GUI
+Copyright 2026 Decepticon GUI contributors
+
+This product is a graphical front end for Decepticon, which is developed at
+PurpleAILAB and distributed under the Apache License, Version 2.0:
+
+    Decepticon
+    Copyright PurpleAILAB and Decepticon contributors
+    https://github.com/PurpleAILAB/Decepticon
+    Licensed under the Apache License, Version 2.0
+
+Statement of changes (Apache License 2.0, section 4(b)):
+
+    No source code from the upstream project is included in this repository.
+    This project is an independently written Python/Tkinter application that
+    invokes the user's own Decepticon installation (launcher binary and
+    Docker Compose stack) through documented command-line interfaces. It does
+    not modify, patch, or redistribute upstream code.
+
+The upstream project's name, copyright notices and license text are kept
+intact and are not altered by this project. A copy of the Apache License 2.0
+is provided in the LICENSE file at the root of this repository.
+
+This project is not affiliated with, endorsed by, or sponsored by
+PurpleAILAB.

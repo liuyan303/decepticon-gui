@@ -1,0 +1,42 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PyInstaller
+        run: python -m pip install --disable-pip-version-check --upgrade pip pyinstaller
+
+      - name: Build
+        shell: pwsh
+        run: ./packaging/build.ps1 -Python (Get-Command python).Source
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: DecepticonGUI-win64
+          path: dist/DecepticonGUI-*-win64.zip
+          if-no-files-found: error
+
+      - name: Attach to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/DecepticonGUI-*-win64.zip
+          generate_release_notes: true
