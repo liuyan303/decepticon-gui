@@ -72,6 +72,7 @@ class Screen:
         self.scroll_top = 0
         self.scroll_bottom = self.rows - 1
         self.wrap_pending = False
+        self.lf_implies_cr = True   # ONLCR: a bare \n also returns to column 0
         self.cursor_visible = True
         self.title = ""
         self.want_repaint = True
@@ -113,6 +114,7 @@ class Screen:
         self.scroll_top, self.scroll_bottom = 0, self.rows - 1
         self.attr = Cell()
         self.wrap_pending = False
+        self.lf_implies_cr = True   # ONLCR: a bare \n also returns to column 0
         self.cursor_visible = True
         self.want_repaint = True
 
@@ -158,6 +160,8 @@ class Screen:
             self.cx = 0
             self.wrap_pending = False
         elif ch == "\n":
+            if self.lf_implies_cr:
+                self.cx = 0
             self._linefeed()
             self.wrap_pending = False
         elif ch == "\b":

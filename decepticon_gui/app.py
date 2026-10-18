@@ -14,7 +14,7 @@ from .views.about import AboutView
 from .views.dashboard import DashboardView
 from .views.logs_view import LogsView
 from .views.setup_view import SetupView
-from .views.terminal_view import TerminalView
+from .views.run_view import RunView
 from .views.workspace import WorkspaceView
 
 NAV = [
@@ -179,7 +179,7 @@ class App(tk.Tk):
         self.views = {
             "dashboard": DashboardView(self.content, self),
             "setup": SetupView(self.content, self),
-            "terminal": TerminalView(self.content, self, session=session),
+            "terminal": RunView(self.content, self, session=session),
             "workspace": WorkspaceView(self.content, self),
             "logs": LogsView(self.content, self),
             "about": AboutView(self.content, self),

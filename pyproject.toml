@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "decepticon-gui"
-version = "0.1.0"
+version = "0.2.0"
 description = "Windows desktop front end for Decepticon (GUI wrapper, no upstream code bundled)"
 readme = "README.md"
 requires-python = ">=3.10"

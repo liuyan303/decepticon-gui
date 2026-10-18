@@ -14,7 +14,7 @@
 - **环境自检**：Docker、Compose、Decepticon 装没装、模型密钥配没配、栈跑没跑，缺什么直接写出来
 - **配置**：选服务商、填 API Key、挑模型档位（eco / max / test）、改端口，直接写 `.env`；保存时把模板里的默认密码换成随机值
 - **运行栈**：启动、停止、看每个容器的状态；Web 面板没跑会自动拉起来
-- **终端**：ConPTY 内嵌官方 CLI，颜色和 TUI 正常，Ctrl+C 可用。ConPTY 不可用时自动退回管道模式，状态栏会写明当前是哪种
+- **执行**：填目标 URL、写两句范围说明，点「启动并执行」——起栈、起 CLI、把任务送进去，输出实时显示在同一页；右侧自动列出 workspace 里新生成的报告，点一下就能预览
 - **工作区 / 日志**：浏览 `workspace` 里的文件，跟 `docker compose logs`
 - **关于**：许可证、上游归属、免责声明
 
@@ -42,8 +42,10 @@ python run.py
 
 1. 「配置」页点「安装 / 更新 Decepticon」，走 decepticon.red 官方脚本，装完点「重载」
 2. 选服务商、填 API Key、保存
-3. 「概览」页点「启动」，等容器健康
-4. 「终端」页点「启动 CLI」
+3. 「执行」页填目标地址（例如 `https://demo.example.com`），点「启动并执行」
+4. 剩下的在窗口里看：终端输出在上，报告在右侧「产出文件」里
+
+如果 CLI 的提示符认得出来，任务会自动发送；认不出来时点「发送任务」手动送一次即可。
 
 指定起始页：`python run.py --page setup`
 
@@ -57,7 +59,7 @@ powershell -ExecutionPolicy Bypass -File packaging\build.ps1
 
 ```
 dist\DecepticonGUI\                     onedir，双击 DecepticonGUI.exe 直接跑
-dist\DecepticonGUI-0.1.0-win64.zip      发布用压缩包，已带 LICENSE / NOTICE
+dist\DecepticonGUI-0.2.0-win64.zip      发布用压缩包，已带 LICENSE / NOTICE
 ```
 
 指定解释器或跳过压缩：
@@ -90,7 +92,7 @@ No upstream source is bundled; it drives the Decepticon you installed yourself (
 - **Environment checks** — Docker, Compose, installation, model keys, stack health
 - **Settings** — provider, API key, model profile, ports, written straight to `.env` with random secrets
 - **Stack control** — start/stop, container states, one-click web dashboard
-- **Embedded terminal** — ConPTY with a pipe fallback (reported in the status bar)
+- **One-click run** — type a target, press start: the stack and CLI come up, the task is typed in, and reports appear on the right
 - **Workspace and logs** — browse engagement files, tail `docker compose logs`
 
 Requirements: Windows 10 1809+, Docker Desktop (WSL2), Python 3.10+ with tkinter.

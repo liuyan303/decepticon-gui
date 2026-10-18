@@ -239,6 +239,15 @@ class TerminalFrame(tk.Frame):
         if self.session.backend:
             self.session.backend.write(text.encode("utf-8", "replace"))
 
+    def _enter(self) -> str:
+        """ConPTY expects CR, a plain pipe expects LF."""
+        if isinstance(self.session.backend, conpty.PipeProcess):
+            return "\n"
+        return "\r"
+
+    def send_line(self, text: str):
+        self.send(text + self._enter())
+
     # -- painting ----------------------------------------------------
     def _schedule_paint(self):
         if self._paint_job is None:
@@ -270,8 +279,19 @@ class TerminalFrame(tk.Frame):
         chunks = []
         for y in range(rows):
             row = screen.buffer[y]
+            # trim trailing default-coloured blanks so lines do not carry
+            # invisible padding into selections or the clipboard
+            end = cols
+            while end > 0:
+                cell = row[end - 1]
+                if cell.ch in ("", " ") and cell.bg == "default":
+                    end -= 1
+                else:
+                    break
+            if y == cy and cx >= end and screen.cursor_visible:
+                end = min(cols, cx + 1)
             x = 0
-            while x < cols:
+            while x < end:
                 cell = row[x]
                 if cell.ch == "":
                     x += 1
@@ -283,7 +303,7 @@ class TerminalFrame(tk.Frame):
                 key = cell.style_key()
                 run = [cell.ch]
                 nx = x + 1
-                while nx < cols:
+                while nx < end:
                     nxt = row[nx]
                     if nxt.ch == "":
                         nx += 1
@@ -378,6 +398,8 @@ class TerminalFrame(tk.Frame):
             return self._on_paste(event)
 
         seq = KEY_SEQUENCES.get(event.keysym)
+        if event.keysym in ("Return", "KP_Enter"):
+            seq = self._enter()
         if seq is None and event.char and event.char.isprintable():
             seq = event.char
         if seq is None:
