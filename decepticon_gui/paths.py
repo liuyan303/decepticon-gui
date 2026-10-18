@@ -68,10 +68,11 @@ def version_file() -> Path:
 
 
 def installed_version() -> str:
+    """Version recorded by the installer, or "" when the file is missing."""
     try:
-        return version_file().read_text(encoding="utf-8").strip() or "unknown"
+        return version_file().read_text(encoding="utf-8").strip()
     except OSError:
-        return "not installed"
+        return ""
 
 
 def is_installed() -> bool:

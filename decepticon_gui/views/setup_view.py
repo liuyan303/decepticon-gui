@@ -217,11 +217,13 @@ class SetupView(tk.Frame):
     # ------------------------------------------------------------------
     def on_show(self):
         version = paths.installed_version()
-        installed = version != "not installed"
+        installed = paths.is_installed()
+        if installed:
+            label = t("setup.installed", version=version) if version else t("common.installed")
+        else:
+            label = t("common.not_installed")
         self.install_status.configure(
-            text=t("setup.installed", version=version) if installed
-            else t("common.not_installed"),
-            fg=ui.COLORS["ok"] if installed else ui.COLORS["bad"])
+            text=label, fg=ui.COLORS["ok"] if installed else ui.COLORS["bad"])
         self.env_path_label.configure(
             text=t("setup.paths", env=paths.env_path(), home=paths.decepticon_home()))
 

@@ -29,7 +29,8 @@ def check_compose():
 
 def check_install():
     if paths.is_installed():
-        return True, f"v{paths.installed_version()}"
+        version = paths.installed_version()
+        return True, (f"v{version}" if version else t("doctor.install.noversion"))
     if paths.compose_path().is_file():
         return False, t("doctor.install.launcher")
     return False, t("doctor.install.none")

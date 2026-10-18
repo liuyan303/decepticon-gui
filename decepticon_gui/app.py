@@ -146,13 +146,14 @@ class App(tk.Tk):
             activeforeground=ui.COLORS["text"], cursor="hand2", padx=8, pady=4)
         self.theme_btn.pack(side="left", padx=(6, 0))
 
-        version = paths.installed_version()
         self.footer_label = tk.Label(
             footer, text=f"v{__version__}", font=ui.font(8),
             fg=ui.COLORS["muted"], bg=ui.COLORS["sidebar"], anchor="w", justify="left")
         self.footer_label.pack(anchor="w", pady=(8, 0))
-        if version != "not installed":
-            self.footer_label.configure(text=f"v{__version__}  ·  Decepticon v{version}")
+        if paths.is_installed():
+            version = paths.installed_version()
+            suffix = f"Decepticon v{version}" if version else "Decepticon"
+            self.footer_label.configure(text=f"v{__version__}  ·  {suffix}")
 
     def _hover(self, row, inside):
         active = getattr(row, "_active", False)

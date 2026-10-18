@@ -37,6 +37,7 @@ STRINGS: dict[str, tuple[str, str]] = {
     "common.clear": ("清空", "Clear"),
     "common.unknown": ("未知", "unknown"),
     "common.not_installed": ("未安装", "not installed"),
+    "common.installed": ("已安装", "installed"),
 
     # -- dashboard ---------------------------------------------------
     "dash.title": ("概览", "Overview"),
@@ -105,6 +106,7 @@ STRINGS: dict[str, tuple[str, str]] = {
     "doctor.daemon.down": ("Docker Desktop 未启动", "Docker Desktop is not running"),
     "doctor.compose.need": ("需要 Compose v2", "Compose v2 required"),
     "doctor.install.launcher": ("缺少 decepticon.exe", "launcher missing"),
+    "doctor.install.noversion": ("已安装（无版本文件）", "installed (no version file)"),
     "doctor.install.none": ("尚未安装", "not installed"),
     "doctor.env.none": ("没有 .env", "no .env file"),
     "doctor.env.nokey": ("未配置任何模型密钥", "no model key configured"),

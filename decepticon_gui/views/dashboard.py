@@ -186,10 +186,13 @@ class DashboardView(tk.Frame):
         key, color = labels.get(state, ("common.unknown", ui.COLORS["muted"]))
         self.stat_stack.value.configure(text=t(key), fg=color)
         version = paths.installed_version()
-        installed = version != "not installed"
+        installed = paths.is_installed()
+        if version:
+            label = f"v{version}"
+        else:
+            label = t("common.installed") if installed else t("common.not_installed")
         self.stat_version.value.configure(
-            text=version if installed else t("common.not_installed"),
-            fg=ui.COLORS["text"] if installed else ui.COLORS["muted"])
+            text=label, fg=ui.COLORS["text"] if installed else ui.COLORS["muted"])
 
         self._fill_table(rows)
         self.app.notify(t("dash.msg.checked"), "ok")
