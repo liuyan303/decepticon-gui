@@ -193,6 +193,21 @@ class TerminalFrame(tk.Frame):
         env["DECEPTICON_HOME"] = str(paths.decepticon_home())
         env.setdefault("TERM", "xterm-256color")
         env.setdefault("COLORTERM", "truecolor")
+        # Compose rejects "NUL" as a bind source (the launcher uses it on
+        # Windows instead of /dev/null). Point those two mounts at a real,
+        # empty file so the project validates.
+        creds = paths.decepticon_home() / "config" / "creds" / "empty.json"
+        for key in ("CLAUDE_CREDENTIALS_VOLUME", "CODEX_AUTH_VOLUME"):
+            value = (env.get(key) or "").strip()
+            if value and value.upper() != "NUL":
+                continue
+            try:
+                creds.parent.mkdir(parents=True, exist_ok=True)
+                if not creds.exists():
+                    creds.write_text("", encoding="utf-8")
+            except OSError:
+                pass
+            env[key] = creds.as_posix()
         return env
 
     def stop(self):
